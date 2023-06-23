@@ -1,23 +1,25 @@
-import { Command } from '@sapphire/framework';
-import type { Message } from 'discord.js';
+const { Command } = require('@sapphire/framework');
+const { send } = require('@sapphire/plugin-editable-commands');
 
-export class PingCommand extends Command {
-  public constructor(context: Command.Context, options: Command.Options) {
+class UserCommand extends Command {
+  constructor(context, options) {
     super(context, {
       ...options,
-      name: 'ping',
-      aliases: ['pong'],
       description: 'ping pong'
     });
   }
-  public async messageRun(message: Message) {
-    const msg = await message.channel.send('Ping?');
+
+  async messageRun(message) {
+    const msg = await send(message, 'Ping?');
 
     const content = `Pong from JavaScript! Bot Latency ${Math.round(this.container.client.ws.ping)}ms. API Latency ${
       msg.createdTimestamp - message.createdTimestamp
     }ms.`;
 
-    return msg.edit(content);
+    return send(message, content);
   }
 }
 
+module.exports = {
+  UserCommand
+};
