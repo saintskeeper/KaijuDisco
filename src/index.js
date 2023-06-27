@@ -1,6 +1,10 @@
 const { LogLevel, SapphireClient } = require('@sapphire/framework');
-const { prefix, discord_token } = require('./config.json');
+const { prefix } = require('./config.json');
 const { GatewayIntentBits, Partials } = require('discord.js');
+require('dotenv').config({ path: '.env.local' });
+
+
+const discordToken = process.env.DISCORD_TOKEN;
 
 const client = new SapphireClient({
   defaultPrefix: prefix,
@@ -25,3 +29,4 @@ const client = new SapphireClient({
   partials: [Partials.Channel],
   loadMessageCommandListeners: true
 });
+client.login(discordToken);
